@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn {
+    @apply bg-yellow-600 px-5 py-2 rounded-md m-2 hover:bg-green-700 transition-all duration-200 text-white active:scale-90;
+  }
+
+  .inp {
+    @apply border-2 border-yellow-500 rounded-md bg-transparent px-3 py-1 outline-none;
+  }
+
+  .Crid {
+    @apply grid md:grid-cols-3 gap-6 mt-8;
+  }
+
+  .flag {
+    @apply w-full  object-cover h-40 mb-2 rounded-md;
+  }
+  .country {
+    @apply p-3 rounded-lg border-[3px] border-green-700;
+  }
+  .menu {
+    @apply list-none text-4xl cursor-pointer;
+  }
+
+  .titleMenu {
+    @apply col-span-3 flex gap-5 items-center;
+  }
+
+  .menuList {
+    @apply absolute w-48 p-5 rounded-md bg-neutral-700 space-y-2 shadow-md;
+  }
+  .menuItem {
+    @apply cursor-pointer hover:bg-neutral-900 p-2 rounded-sm;
+  }
+}
+
+body {
+  background-color: rgba(0, 0, 0, 0.874);
+  color: rgb(219, 219, 219);
+  padding: 30px 15px;
+}
+
+.delay-1 {
+  animation-delay: 0s;
+}
+
+.delay-2 {
+  animation-delay: 0.07s;
+}
+
+.delay-3 {
+  animation-delay: 0.09s;
+}
+
+.delay-4 {
+  animation-delay: 0.12s;
+}
+
+.delay-5 {
+  animation-delay: 0.13s;
+}
+
+.delay-6 {
+  animation-delay: 0.15s;
+}
