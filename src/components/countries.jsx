@@ -2,13 +2,22 @@ import { useEffect, useState } from "react";
 import MyFetch from "../fetch/MyFetch";
 import Country from "./Country";
 import Header from "./header";
-import { getVisiteData, setNewVisitedData } from "./lsIntegration/localStorage";
+import {
+  getVisiteData,
+  removeItem,
+  setNewVisitedData,
+} from "./lsIntegration/localStorage";
 import VisitedContainer from "./VisitedContainer";
 
-function Contries({ loadPage, url = "https://restcountries.com/v3.1/all" }) {
+function Contries({
+  loadPage,
+  url,
+  changeHandler,
+  searchedText,
+  isHideVisited,
+}) {
   const [countries, setCountries] = useState([]);
   const [visitedCountry, setVisitedCountry] = useState([]);
-  const [searchedText, setsearchedText] = useState("");
 
   useEffect(() => {
     MyFetch(url)
@@ -16,43 +25,59 @@ function Contries({ loadPage, url = "https://restcountries.com/v3.1/all" }) {
         setCountries(responseCountries);
         loadPage ? loadPage() : null;
 
+        // handle re-render visited datas
+        if (visitedCountry.length === getVisiteData().length) return;
+
+        // get all countries which mached with localStorage ids
         for (let id of getVisiteData()) {
-          let res = responseCountries.filter((c) => c.cca2 == id)[0];
+          let res = responseCountries.find((c) => c.cca2 == id);
+
           setVisitedCountry((pre) => [...pre, res]);
         }
       })
-      .catch((err) => {
-        console.log("data is not loaded please try again", err);
+      .catch((error) => {
+        setCountries(["NO Data Found"]);
+        console.log("data is not found");
       });
-  }, []);
+  }, [url]);
 
   const visitedCountryHandler = (country) => {
     if (visitedCountry.includes(country)) {
       return;
     }
-    setVisitedCountry([...visitedCountry, country]);
+    if (!visitedCountry.includes(country)) {
+      setVisitedCountry([...visitedCountry, country]);
+    }
     setNewVisitedData(country.cca2);
-
-    // console.log(getVisiteData());
   };
 
-  console.log(visitedCountry);
+  const removeVisitedCountryHandler = (country) => {
+    removeItem(country);
+    const filteredCountries = visitedCountry.filter((c) => c !== country);
 
-  const changeHandler = (text) => {
-    setsearchedText(text);
-    Contries(`https://restcountries.com/v3.1/name/${text}`);
+    setVisitedCountry(filteredCountries);
+    console.log("removed", country.cca2);
   };
   return (
     <>
       <Header changeHandler={changeHandler} searchedText={searchedText} />
       <div className="mt-7">
-        <VisitedContainer visitedCuntries={visitedCountry} />
+        {!isHideVisited && (
+          <VisitedContainer
+            visitedCuntries={visitedCountry}
+            removeVisitedCountryHandler={removeVisitedCountryHandler}
+          />
+        )}
       </div>
-      <div className="Crid">
-        <Country
-          visitedCountryHandler={visitedCountryHandler}
-          countriesData={countries}
-        />
+      <div className={`${countries.length === 1 ? "noDataFound" : "Crid"}`}>
+        {countries.length === 1 ? (
+          <h2 className="text-3xl">No data found</h2>
+        ) : (
+          <Country
+            visitedCountryHandler={visitedCountryHandler}
+            countriesData={countries}
+          />
+        )}
       </div>
     </>
   );

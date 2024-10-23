@@ -19,7 +19,7 @@ export default function Header({ changeHandler, searchedText }) {
         className="inp col-span-7"
         value={searchedText}
         onChange={(e) => changeHandler(e.target.value)}
-        placeholder="Searce contry"
+        placeholder="Search country"
       />
     </div>
   );

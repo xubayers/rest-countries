@@ -5,9 +5,14 @@ function MyFetch(url) {
     xhr.send();
 
     // contentType: "application/json",
+
     xhr.onload = function () {
       const response = JSON.parse(xhr.response);
-      resolve(response);
+      if (response.status >= 400) {
+        reject("No Data Found");
+      } else {
+        resolve(response);
+      }
     };
   });
 }

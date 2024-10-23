@@ -1,5 +1,7 @@
-export default function VisitedContainer({ visitedCuntries }) {
-  console.log(visitedCuntries);
+export default function VisitedContainer({
+  visitedCuntries,
+  removeVisitedCountryHandler,
+}) {
   try {
     return (
       <div className="flex flex-col justify-center">
@@ -12,7 +14,9 @@ export default function VisitedContainer({ visitedCuntries }) {
                   <img
                     key={i}
                     src={country.flags.png}
-                    className="md:h-20 lg object-cover w-full"
+                    title="Remove visited to unVisited"
+                    onClick={() => removeVisitedCountryHandler(country)}
+                    className="md:h-20 lg object-cover w-full cursor-pointer"
                   />
                 );
               })}

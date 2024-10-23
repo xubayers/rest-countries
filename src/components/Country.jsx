@@ -1,6 +1,6 @@
 import DisplayCountry from "./DisplayCountry";
 
-function Country({ countriesData = [], visitedCountryHandler = null }) {
+function Country({ countriesData, visitedCountryHandler }) {
   return (
     <>
       {countriesData.map((country) => {

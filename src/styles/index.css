@@ -35,6 +35,9 @@
   .menuItem {
     @apply cursor-pointer hover:bg-neutral-900 p-2 rounded-sm;
   }
+  .noDataFound {
+    @apply flex h-60 justify-center items-center;
+  }
 }
 
 body {
