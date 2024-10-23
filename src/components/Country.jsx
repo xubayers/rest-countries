@@ -3,9 +3,9 @@ import DisplayCountry from "./DisplayCountry";
 function Country({ countriesData = [], visitedCountryHandler = null }) {
   return (
     <>
-      {countriesData.map((country, i) => {
+      {countriesData.map((country) => {
         return (
-          <div className="country" key={i}>
+          <div className="country" key={country.cca2}>
             <DisplayCountry
               country={country}
               visitedCountryHandler={visitedCountryHandler}

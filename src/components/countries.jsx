@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import MyFetch from "../fetch/MyFetch";
 import Country from "./Country";
 import Header from "./header";
+import { getVisiteData, setNewVisitedData } from "./lsIntegration/localStorage";
 import VisitedContainer from "./VisitedContainer";
 
 function Contries({ loadPage, url = "https://restcountries.com/v3.1/all" }) {
@@ -14,6 +15,11 @@ function Contries({ loadPage, url = "https://restcountries.com/v3.1/all" }) {
       .then((responseCountries) => {
         setCountries(responseCountries);
         loadPage ? loadPage() : null;
+
+        for (let id of getVisiteData()) {
+          let res = responseCountries.filter((c) => c.cca2 == id)[0];
+          setVisitedCountry((pre) => [...pre, res]);
+        }
       })
       .catch((err) => {
         console.log("data is not loaded please try again", err);
@@ -25,7 +31,12 @@ function Contries({ loadPage, url = "https://restcountries.com/v3.1/all" }) {
       return;
     }
     setVisitedCountry([...visitedCountry, country]);
+    setNewVisitedData(country.cca2);
+
+    // console.log(getVisiteData());
   };
+
+  console.log(visitedCountry);
 
   const changeHandler = (text) => {
     setsearchedText(text);
